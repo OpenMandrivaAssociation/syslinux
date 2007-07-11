@@ -19,7 +19,9 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	png-static-devel
-Patch1:		syslinux-3.35-opensuse-pre.patch
+# (blino) rediffed from opensuse 3.31 patch
+# modified mostly about lsr stuff in add_crc and Makefile
+Patch1:		syslinux-3.51-gfxboot.patch
 Patch2:		syslinux-3.20-date.patch
 Patch10:	syslinux-3.31-system_png.patch
 Patch11:	syslinux-3.20-png_com32.patch
