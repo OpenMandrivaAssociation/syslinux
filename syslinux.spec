@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.35
+%define version 3.51
 %define release %mkrel 1
 
 %define tftpbase /var/lib/tftpboot
@@ -19,7 +19,6 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	png-static-devel
-Patch0:         syslinux-3.11-vfat.patch
 Patch1:		syslinux-3.35-opensuse-pre.patch
 Patch2:		syslinux-3.20-date.patch
 Patch10:	syslinux-3.31-system_png.patch
@@ -59,7 +58,6 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p1 -b .vfat
 %patch1 -p1 -b .opensuse
 %patch2 -p1 -b .date
 %patch10 -p1 -b .syspng
