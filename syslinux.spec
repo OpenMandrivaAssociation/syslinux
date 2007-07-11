@@ -60,7 +60,7 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .opensuse
+%patch1 -p1 -b .gfxboot
 %patch2 -p1 -b .date
 %patch10 -p1 -b .syspng
 install %{_includedir}/png.h %{_includedir}/pngconf.h com32/include
