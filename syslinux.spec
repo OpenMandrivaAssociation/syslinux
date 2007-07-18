@@ -1,6 +1,6 @@
 %define name syslinux
 %define version 3.51
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -112,8 +112,8 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_libdir}/syslinux/
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README TODO
-%doc syslinux.doc isolinux.doc 
+%doc COPYING NEWS README TODO README.usbkey README.menu
+%doc syslinux.doc isolinux.doc comboot.doc extlinux.doc distrib.doc keytab-lilo.doc memdisk/memdisk.doc
 %{_bindir}/*
 %{_sbindir}/*
 %exclude %{_libdir}/%{name}/com32
