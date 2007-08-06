@@ -1,6 +1,6 @@
 %define name syslinux
 %define version 3.51
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -23,7 +23,7 @@ BuildRequires:	libpng-source
 # modified mostly about lsr stuff in add_crc and Makefile
 Patch1:		syslinux-3.51-gfxboot.patch
 Patch2:		syslinux-3.20-date.patch
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
 Conflicts:	pxelinux <= 3.11-1mdk
