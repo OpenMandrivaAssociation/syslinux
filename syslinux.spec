@@ -1,6 +1,6 @@
 %define name syslinux
 %define version 3.51
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -92,13 +92,13 @@ rm -rf $RPM_BUILD_ROOT
   INSTALLROOT=$RPM_BUILD_ROOT \
   BINDIR=%{_bindir} \
   SBINDIR=%{_sbindir} \
-  LIBDIR=%{_libdir} \
+  LIBDIR=%{_prefix}/lib \
   INCDIR=%{_includedir}
 
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/%{name}/menu
-cp -av menu/*  $RPM_BUILD_ROOT/%{_libdir}/%{name}/menu/
+mkdir -p $RPM_BUILD_ROOT/%{_prefix}/lib/%{name}/menu
+cp -av menu/*  $RPM_BUILD_ROOT/%{_prefix}/lib/%{name}/menu/
 
-cp gethostip sha1pass mkdiskimage sys2ansi.pl keytab-lilo.pl $RPM_BUILD_ROOT/%{_libdir}/syslinux
+cp gethostip sha1pass mkdiskimage sys2ansi.pl keytab-lilo.pl $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux
 
 install -d $RPM_BUILD_ROOT%{pxebase}/pxelinux.cfg/
 install -m 0644 %SOURCE1 $RPM_BUILD_ROOT%{pxebase}/help.txt
@@ -107,8 +107,8 @@ install -m 0644 %SOURCE3 $RPM_BUILD_ROOT%{pxebase}/pxelinux.cfg/default
 perl -pi -e "s|VERSION|%version|g" $RPM_BUILD_ROOT%{pxebase}/messages
 install -m 0644 pxelinux.0 $RPM_BUILD_ROOT%{pxebase}/linux.0
 install -m 0644 memdisk/memdisk $RPM_BUILD_ROOT%{pxebase}/memdisk
-install -m 0644 isolinux-i586.bin $RPM_BUILD_ROOT/%{_libdir}/syslinux/
-install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_libdir}/syslinux/
+install -m 0644 isolinux-i586.bin $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux/
+install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
@@ -116,9 +116,9 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_libdir}/syslinux/
 %doc syslinux.doc isolinux.doc comboot.doc extlinux.doc distrib.doc keytab-lilo.doc memdisk/memdisk.doc
 %{_bindir}/*
 %{_sbindir}/*
-%exclude %{_libdir}/%{name}/com32
-%exclude %{_libdir}/%{name}/menu
-%{_libdir}/%{name}/*
+%exclude %{_prefix}/lib/%{name}/com32
+%exclude %{_prefix}/lib/%{name}/menu
+%{_prefix}/lib/%{name}/*
 
 %files -n pxelinux
 %doc pxelinux.doc
@@ -130,7 +130,7 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_libdir}/syslinux/
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/%{name}/com32
-%{_libdir}/%{name}/menu
+%{_prefix}/lib/%{name}/com32
+%{_prefix}/lib/%{name}/menu
 
 
