@@ -16,6 +16,7 @@ Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
 Url:		http://syslinux.zytor.com/
+BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
 # (blino) rediffed from opensuse 3.31 patch
