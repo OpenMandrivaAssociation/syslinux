@@ -1,6 +1,5 @@
 %define name syslinux
 %define version 3.51
-%define release %mkrel 4
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -8,7 +7,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%{release}
+Release:	%mkrel 5
 License:	GPL
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
