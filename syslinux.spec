@@ -111,7 +111,7 @@ install -m 0644 isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README TODO doc/*.txt
+%doc COPYING NEWS README README.gfxboot TODO doc/*.txt
 %{_bindir}/*
 %{_sbindir}/*
 %exclude %{_prefix}/lib/%{name}/com32
