@@ -20,7 +20,6 @@ BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
 # (blino) rediffed from opensuse 3.63 patch
 Patch1:		syslinux-3.71-gfxboot.patch
-Patch2:		syslinux-3.20-date.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -57,7 +56,6 @@ necessary to compile such modules.
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1 -b .gfx
-%patch2 -p1 -b .date
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
