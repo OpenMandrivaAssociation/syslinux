@@ -18,8 +18,8 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-# (blino) from opensuse 3.63
-Patch1:		syslinux-3.63.diff
+# (blino) rediffed from opensuse 3.63 patch
+Patch1:		syslinux-3.71-gfxboot.patch
 Patch2:		syslinux-3.20-date.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
