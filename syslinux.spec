@@ -56,7 +56,7 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gfxboot
+%patch1 -p1 -b .gfx
 %patch2 -p1 -b .date
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
