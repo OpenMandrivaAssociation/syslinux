@@ -96,7 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/%{_prefix}/lib/%{name}/menu
 cp -av menu/*  $RPM_BUILD_ROOT/%{_prefix}/lib/%{name}/menu/
 
-cp gethostip sha1pass mkdiskimage sys2ansi.pl keytab-lilo.pl $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux
+cp gethostip sha1pass mkdiskimage syslinux2ansi.pl keytab-lilo.pl $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux
 
 install -d $RPM_BUILD_ROOT%{pxebase}/pxelinux.cfg/
 install -m 0644 %SOURCE1 $RPM_BUILD_ROOT%{pxebase}/help.txt
