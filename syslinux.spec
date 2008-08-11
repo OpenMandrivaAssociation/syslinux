@@ -111,8 +111,7 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README TODO README.usbkey README.menu
-%doc syslinux.doc isolinux.doc comboot.doc extlinux.doc distrib.doc keytab-lilo.doc memdisk/memdisk.doc
+%doc COPYING NEWS README TODO doc/*.txt
 %{_bindir}/*
 %{_sbindir}/*
 %exclude %{_prefix}/lib/%{name}/com32
@@ -121,7 +120,7 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux/
 %{_mandir}/man1/*.1*
 
 %files -n pxelinux
-%doc pxelinux.doc
+%doc doc/pxelinux.txt
 %{pxebase}/*.0
 %{pxebase}/memdisk
 %config(noreplace) %{pxebase}/messages
