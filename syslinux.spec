@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.63
+%define version 3.71
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
