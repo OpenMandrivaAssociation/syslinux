@@ -18,9 +18,8 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-# (blino) rediffed from opensuse 3.31 patch
-# modified mostly about lsr stuff in add_crc and Makefile
-Patch1:		syslinux-3.51-gfxboot.patch
+# (blino) from opensuse 3.63
+Patch1:		syslinux-3.63.diff
 Patch2:		syslinux-3.20-date.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
@@ -57,7 +56,7 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gfxboot
+%patch1 -p0 -b .gfxboot
 %patch2 -p1 -b .date
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
