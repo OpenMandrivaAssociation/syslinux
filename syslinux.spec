@@ -91,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
   BINDIR=%{_bindir} \
   SBINDIR=%{_sbindir} \
   LIBDIR=%{_prefix}/lib \
+  MANDIR=%{_mandir} \
   INCDIR=%{_includedir}
 
 mkdir -p $RPM_BUILD_ROOT/%{_prefix}/lib/%{name}/menu
@@ -117,6 +118,7 @@ install -m 0644 isolinux-x86_64.bin $RPM_BUILD_ROOT/%{_prefix}/lib/syslinux/
 %exclude %{_prefix}/lib/%{name}/com32
 %exclude %{_prefix}/lib/%{name}/menu
 %{_prefix}/lib/%{name}/*
+%{_mandir}/man1/*.1*
 
 %files -n pxelinux
 %doc pxelinux.doc
