@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.71
+%define version 3.72
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -18,8 +18,9 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-# (blino) rediffed from opensuse 3.63 patch
-Patch1:		syslinux-3.71-gfxboot.patch
+Patch1:		gfxboot_com-3.73-pre7.diff
+Patch2:		README.gfxboot.patch
+Patch3:		remove-win32-from-build.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -55,7 +56,9 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gfx
+%patch1 -p0 -b .gfx
+%patch2 -p1 -b .gfx
+%patch3 -p1 -b .gfx
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
@@ -65,47 +68,48 @@ install -d com32/lib/libpng
 install %{_prefix}/src/libpng/*.c com32/lib/libpng
 
 %build
-chmod +x add_crc
 %make DATE="Mandriva Linux"
-mv isolinux.bin isolinux.bin.normal
+mv core/isolinux.bin core/isolinux.bin.normal
 
-perl -pi -e 's,^(isolinux_dir.*)/isolinux,$1/x86_64/isolinux,' isolinux.asm
-%make DATE="Mandriva Linux" isolinux.bin
-mv isolinux.bin isolinux-x86_64.bin
+perl -pi -e 's,^(isolinux_dir.*)/isolinux,$1/x86_64/isolinux,' core/isolinux.asm
+%make DATE="Mandriva Linux"
+mv core/isolinux.bin core/isolinux-x86_64.bin
 
-perl -pi -e 's,^(isolinux_dir.*)/x86_64/isolinux,$1/i586/isolinux,' isolinux.asm
-%make DATE="Mandriva Linux" isolinux.bin
-mv isolinux.bin isolinux-i586.bin
+perl -pi -e 's,^(isolinux_dir.*)/x86_64/isolinux,$1/i586/isolinux,' core/isolinux.asm
+%make DATE="Mandriva Linux"
+mv core/isolinux.bin core/isolinux-i586.bin
 
-mv isolinux.bin.normal isolinux.bin
+mv core/isolinux.bin.normal core/isolinux.bin
 
 %clean 
 rm -rf %{buildroot}
 
 %install
 rm -rf %{buildroot}
+# AUXDIR is explicitly set because upstream sets AUXDIR to %{_datadir}/%{name}
+# but we favour AUXDIR set to %{_prefix}/lib/%{name} for backward compatibility
+# with our syslinux 3.63 package
 %make install \
   INSTALLROOT=%{buildroot} \
   BINDIR=%{_bindir} \
   SBINDIR=%{_sbindir} \
   LIBDIR=%{_prefix}/lib \
   MANDIR=%{_mandir} \
-  INCDIR=%{_includedir}
+  INCDIR=%{_includedir} \
+  AUXDIR=%{_prefix}/lib/%{name}
 
 mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/menu
 cp -av menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
-
-cp gethostip sha1pass mkdiskimage syslinux2ansi.pl keytab-lilo.pl %{buildroot}/%{_prefix}/lib/syslinux
 
 install -d %{buildroot}%{pxebase}/pxelinux.cfg/
 install -m 0644 %SOURCE1 %{buildroot}%{pxebase}/help.txt
 install -m 0644 %SOURCE2 %{buildroot}%{pxebase}/messages
 install -m 0644 %SOURCE3 %{buildroot}%{pxebase}/pxelinux.cfg/default
 perl -pi -e "s|VERSION|%version|g" %{buildroot}%{pxebase}/messages
-install -m 0644 pxelinux.0 %{buildroot}%{pxebase}/linux.0
+install -m 0644 core/pxelinux.0 %{buildroot}%{pxebase}/linux.0
 install -m 0644 memdisk/memdisk %{buildroot}%{pxebase}/memdisk
-install -m 0644 isolinux-i586.bin %{buildroot}/%{_prefix}/lib/syslinux/
-install -m 0644 isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
+install -m 0644 core/isolinux-i586.bin %{buildroot}/%{_prefix}/lib/syslinux/
+install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
