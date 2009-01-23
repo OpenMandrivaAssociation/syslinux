@@ -21,6 +21,7 @@ BuildRequires:	libpng-source
 Patch1:		gfxboot_com-3.73-pre7.diff
 Patch2:		README.gfxboot.patch
 Patch3:		remove-win32-from-build.patch
+Patch4:		add-ui-directive-to-isolinux-cfg.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -59,6 +60,7 @@ necessary to compile such modules.
 %patch1 -p0 -b .gfx
 %patch2 -p1 -b .gfx
 %patch3 -p1 -b .gfx
+%patch4 -p1 -b .gfx
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
