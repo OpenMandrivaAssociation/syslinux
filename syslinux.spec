@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.72
+%define version 3.73
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -18,10 +18,10 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-Patch1:		gfxboot_com-3.73-pre7.diff
-Patch2:		README.gfxboot.patch
-Patch3:		remove-win32-from-build.patch
-Patch4:		add-ui-directive-to-isolinux-cfg.patch
+Patch1:		add-ui-directive-to-isolinux-cfg.patch
+Patch2:		gfxboot_com-3.73-pre7.diff
+Patch3:		README.gfxboot.patch
+Patch4:		remove-win32-from-build.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -57,8 +57,8 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p0 -b .gfx
-%patch2 -p1 -b .gfx
+%patch1 -p1 -b .gfx
+%patch2 -p0 -b .gfx
 %patch3 -p1 -b .gfx
 %patch4 -p1 -b .gfx
 # (blino) overwrite bundled libpng files with system one
