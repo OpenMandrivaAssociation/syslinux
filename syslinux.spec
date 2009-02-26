@@ -7,7 +7,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
@@ -22,6 +22,7 @@ Patch1:		add-ui-directive-to-isolinux-cfg.patch
 Patch2:		gfxboot_com-3.73-pre7.diff
 Patch3:		README.gfxboot.patch
 Patch4:		remove-win32-from-build.patch
+Patch5:		gfxboot-default-entry.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -57,10 +58,11 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .gfx
-%patch2 -p0 -b .gfx
-%patch3 -p1 -b .gfx
-%patch4 -p1 -b .gfx
+%patch1 -p1 -b .ui
+%patch2 -p0 -b .gfxboot
+%patch3 -p1 -b .readmegfx
+%patch4 -p1 -b .win32
+%patch5 -p1 -b .default
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
