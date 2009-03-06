@@ -7,7 +7,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
@@ -23,6 +23,8 @@ Patch2:		gfxboot_com-3.73-pre7.diff
 Patch3:		README.gfxboot.patch
 Patch4:		remove-win32-from-build.patch
 Patch5:		gfxboot-default-entry.patch
+# (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
+Patch6:		syslinux-3.73-fixisohybrid.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -63,6 +65,7 @@ necessary to compile such modules.
 %patch3 -p1 -b .readmegfx
 %patch4 -p1 -b .win32
 %patch5 -p1 -b .default
+%patch6 -p1 -b .fixisohybrid
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
