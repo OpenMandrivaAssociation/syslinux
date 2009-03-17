@@ -1,5 +1,6 @@
 %define name syslinux
-%define version 3.73
+%define version 3.74
+%define prerelease pre6
 
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
@@ -7,10 +8,10 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 4
+Release:	%mkrel 0.%{prerelease}.1
 License:	GPLv2+
 Group:		System/Kernel and hardware
-Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
+Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}-%{prerelease}.tar.bz2
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
@@ -18,7 +19,6 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-Patch1:		add-ui-directive-to-isolinux-cfg.patch
 Patch2:		gfxboot_com-3.73-pre7.diff
 Patch3:		README.gfxboot.patch
 Patch4:		remove-win32-from-build.patch
@@ -59,13 +59,13 @@ sophisticated add-on modules.  This package contains the libraries
 necessary to compile such modules.
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch1 -p1 -b .ui
+%setup -q -n %{name}-%{version}-%{prerelease}
 %patch2 -p0 -b .gfxboot
 %patch3 -p1 -b .readmegfx
 %patch4 -p1 -b .win32
 %patch5 -p1 -b .default
 %patch6 -p1 -b .fixisohybrid
+
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
 # is build with a specific libc
@@ -106,7 +106,7 @@ rm -rf %{buildroot}
   AUXDIR=%{_prefix}/lib/%{name}
 
 mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/menu
-cp -av menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
+cp -av com32/menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
 
 install -d %{buildroot}%{pxebase}/pxelinux.cfg/
 install -m 0644 %SOURCE1 %{buildroot}%{pxebase}/help.txt
