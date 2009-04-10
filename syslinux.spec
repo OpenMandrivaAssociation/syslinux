@@ -1,6 +1,5 @@
 %define name syslinux
 %define version 3.74
-%define prerelease pre17
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
 %define tftpbase /var/lib/tftpboot
@@ -9,10 +8,10 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 0.%{prerelease}.1
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
-Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}-%{prerelease}.tar.bz2
+Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
@@ -20,10 +19,7 @@ Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
-Patch2:		gfxboot_com-3.73-pre7.diff
-Patch3:		README.gfxboot.patch
 Patch4:		remove-win32-from-build.patch
-Patch5:		gfxboot-default-entry.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.73-fixisohybrid.patch
 ExclusiveArch:	%{ix86} x86_64
@@ -60,11 +56,8 @@ sophisticated add-on modules.  This package contains the libraries
 necessary to compile such modules.
 
 %prep
-%setup -q -n %{name}-%{version}-%{prerelease}
-%patch2 -p0 -b .gfxboot
-%patch3 -p1 -b .readmegfx
+%setup -q -n %{name}-%{version}
 %patch4 -p1 -b .win32
-%patch5 -p1 -b .default
 %patch6 -p1 -b .fixisohybrid
 
 # (blino) overwrite bundled libpng files with system one
@@ -121,7 +114,7 @@ install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README README.gfxboot TODO doc/*.txt
+%doc COPYING NEWS README TODO doc/*.txt
 %{_bindir}/*
 %{_sbindir}/*
 %exclude %{_prefix}/lib/%{name}/com32
