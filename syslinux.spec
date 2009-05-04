@@ -1,5 +1,6 @@
 %define name syslinux
-%define version 3.75
+%define version 3.80
+%define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
 %define tftpbase /var/lib/tftpboot
@@ -8,10 +9,11 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 1
+#Release:	%mkrel 0.%{prerelease}
+Release:	%mkrel 0.pre10
 License:	GPLv2+
 Group:		System/Kernel and hardware
-Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
+Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}-%{prerelease}.tar.bz2
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
@@ -22,8 +24,6 @@ BuildRequires:	libpng-source
 Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.73-fixisohybrid.patch
-Patch7:		syslinux-3.75-isohybrid-more-than-2GB.patch
-Patch8:		syslinux-3.75-isohybrid-preserve-id.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -58,11 +58,9 @@ sophisticated add-on modules.  This package contains the libraries
 necessary to compile such modules.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}-%{prerelease}
 %patch4 -p1 -b .win32
 %patch6 -p1 -b .fixisohybrid
-%patch7 -p1 -b .isohybrid-2GB
-%patch8 -p1 -b .isohybrid-id
 
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
