@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.80
+%define version 3.82
 %define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
