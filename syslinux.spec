@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.82
+%define version 3.83
 %define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
@@ -9,7 +9,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 2
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
