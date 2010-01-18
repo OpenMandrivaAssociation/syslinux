@@ -1,6 +1,6 @@
 %define name syslinux
-%define version 3.83
-%define prerelease pre8
+%define version 3.84
+#define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
 %define tftpbase /var/lib/tftpboot
