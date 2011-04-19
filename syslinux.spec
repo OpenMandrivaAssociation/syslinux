@@ -22,7 +22,7 @@ BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng-source
 Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
-Patch6:		syslinux-3.73-fixisohybrid.patch
+Patch6:		syslinux-3.84-fixisohybrid.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
