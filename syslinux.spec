@@ -23,6 +23,7 @@ BuildRequires:	libpng-source
 Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.84-fixisohybrid.patch
+Patch7:		syslinux-3.84_remove_keytab-lilo.patch
 ExclusiveArch:	%{ix86} x86_64
 Obsoletes:	isolinux < %{version}
 Provides:	isolinux = %{version}
@@ -60,6 +61,7 @@ necessary to compile such modules.
 %setup -q -n %{name}-%{version}
 %patch4 -p1 -b .win32
 %patch6 -p1 -b .fixisohybrid
+%patch7 -p0
 
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
