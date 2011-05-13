@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 3.84
+%define version 4.04
 #define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
@@ -9,7 +9,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel 4
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
@@ -59,9 +59,9 @@ necessary to compile such modules.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch4 -p1 -b .win32
-%patch6 -p1 -b .fixisohybrid
-%patch7 -p0
+#%patch4 -p1 -b .win32
+#%patch6 -p1 -b .fixisohybrid
+#%patch7 -p0
 
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
@@ -72,6 +72,7 @@ install -d com32/lib/libpng
 install %{_prefix}/src/libpng/*.c com32/lib/libpng
 
 %build
+rm -f diag/geodsp/mk-lba-img
 %make DATE="Mandriva Linux"
 mv core/isolinux.bin core/isolinux.bin.normal
 
@@ -117,7 +118,7 @@ install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 
 %files
 %defattr(-,root,root)
-%doc COPYING NEWS README TODO doc/*.txt
+%doc COPYING NEWS README doc/*.txt
 %{_bindir}/*
 %{_sbindir}/*
 %exclude %{_prefix}/lib/%{name}/com32
