@@ -1,5 +1,5 @@
 %define name syslinux
-%define version 4.04
+%define version 4.05
 #define prerelease pre8
 %define git_url	git://git.kernel.org/pub/scm/boot/syslinux/syslinux.git
 
@@ -13,6 +13,7 @@ Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Source0:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
+Source4:	http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.sign
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
