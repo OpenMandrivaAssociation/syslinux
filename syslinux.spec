@@ -20,8 +20,8 @@ Source3:	pxelinux-default
 Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
-BuildRequires:	libpng-source
-Buildrequires:	libpng-devel
+BuildRequires:	libpng0-source
+Buildrequires:	libpng0-devel
 Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.84-fixisohybrid.patch
