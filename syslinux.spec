@@ -20,7 +20,7 @@ Source3:	pxelinux-default
 Url:		http://syslinux.zytor.com/
 BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
-BuildRequires:	libpng12-source)
+BuildRequires:	libpng12-source
 Buildrequires:	pkgconfig(libpng0)
 Buildrequires:	pkgconfig(libuuid)
 Patch4:		remove-win32-from-build.patch
