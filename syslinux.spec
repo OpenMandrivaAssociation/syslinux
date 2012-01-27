@@ -22,7 +22,7 @@ BuildRoot:	%{_tmppath}/%{name}-buildroot/
 BuildRequires:	nasm >= 0.97, netpbm
 BuildRequires:	libpng12-source
 Buildrequires:	%mklibname png0-devel
-Buildrequires:	pkgconfig(libuuid)
+Buildrequires:	%mklibname uuid-devel
 Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.84-fixisohybrid.patch
