@@ -121,11 +121,15 @@ install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 %{_bindir}/gethostip
 %{_bindir}/isohybrid
 %{_bindir}/memdiskfind
+%{_bindir}/syslinux
 %{_sbindir}/extlinux
 %{_prefix}/lib/%{name}/*
 %{_mandir}/man1/gethostip*
 %{_mandir}/man1/syslinux*
 %{_mandir}/man1/extlinux*
+%exclude %{_mandir}/man1/syslinux2ansi*
+%exclude %{_prefix}/lib/%{name}/com32
+%exclude %{_prefix}/lib/%{name}/menu
 
 %files -n pxelinux
 %doc doc/pxelinux.txt
