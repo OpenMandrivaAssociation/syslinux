@@ -122,6 +122,7 @@ install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 %{_bindir}/memdiskfind
 %{_bindir}/syslinux
 %{_sbindir}/extlinux
+%dir %{_prefix}/lib/%{name}
 %{_prefix}/lib/%{name}/*
 %{_mandir}/man1/gethostip*
 %{_mandir}/man1/syslinux*
