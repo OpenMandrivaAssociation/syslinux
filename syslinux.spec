@@ -5,7 +5,7 @@
 Summary:	A bootloader for linux using floppies, CD
 Name:		syslinux
 Version:	4.05
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://syslinux.zytor.com/
@@ -18,12 +18,14 @@ Patch4:		remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:		syslinux-3.84-fixisohybrid.patch
 Patch7:		syslinux-3.84_remove_keytab-lilo.patch
+Patch8:		syslinux-4.05-use-ext2_fs.h-from-e2fsprogs.patch
 ExclusiveArch:	%{ix86} x86_64
 BuildRequires:	nasm
 BuildRequires:	netpbm
 BuildRequires:	libpng12-source
 Buildrequires:	pkgconfig(libpng12)
 Buildrequires:	pkgconfig(uuid)
+BuildRequires:	pkgconfig(ext2fs)
 Provides:	isolinux = %{version}
 
 %description
@@ -65,6 +67,7 @@ necessary to compile such modules.
 #%patch4 -p1 -b .win32
 #%patch6 -p1 -b .fixisohybrid
 #%patch7 -p0
+%patch8 -p1 -b .ext2fs~
 
 # (blino) overwrite bundled libpng files with system one
 # we can't link directly with libpng.a since the com32 library
