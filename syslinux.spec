@@ -32,30 +32,30 @@ operates off an MS-DOS/Windows FAT filesystem.  It is intended to
 simplify first-time installation of Linux, and for creation of rescue-
 and other special-purpose boot disks.
 
-%package -n pxelinux
+%package -n	pxelinux
 Summary:	A PXE bootloader
 Group:		System/Kernel and hardware
 Requires:	syslinux
 
-%description -n pxelinux
+%description -n	pxelinux
 PXELINUX is a PXE bootloader.
 
-%package perl
+%package	perl
 Summary:	Syslinux tools written in perl
 Group:		System/Kernel and hardware
 Requires:	syslinux
 Conflicts:	syslinux < 4.05-3
 
-%description perl
+%description	perl
 Syslinux tools written in perl.
 
-%package devel
-Summary: Development environment for SYSLINUX add-on modules
-Group: Development/Other
+%package	devel
+Summary:	Development environment for SYSLINUX add-on modules
+Group:		Development/Other
 Requires:	tftp-server
 Requires:	syslinux
 
-%description devel
+%description	devel
 The SYSLINUX boot loader contains an API, called COM32, for writing
 sophisticated add-on modules.  This package contains the libraries
 necessary to compile such modules.
@@ -90,7 +90,6 @@ mv core/isolinux.bin core/isolinux-i586.bin
 mv core/isolinux.bin.normal core/isolinux.bin
 
 %install
-rm -rf %{buildroot}
 # AUXDIR is explicitly set because upstream sets AUXDIR to %{_datadir}/%{name}
 # but we favour AUXDIR set to %{_prefix}/lib/%{name} for backward compatibility
 # with our syslinux 3.63 package
