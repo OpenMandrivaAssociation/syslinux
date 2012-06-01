@@ -80,17 +80,6 @@ install %{_prefix}/src/libpng/*.c com32/lib/libpng
 %build
 rm -f diag/geodsp/mk-lba-img
 %make DATE="%{vendor} Linux"
-mv core/isolinux.bin core/isolinux.bin.normal
-
-perl -pi -e 's,^(isolinux_dir.*)/isolinux,$1/x86_64/isolinux,' core/isolinux.asm
-%make DATE="%{vendor} Linux"
-mv core/isolinux.bin core/isolinux-x86_64.bin
-
-perl -pi -e 's,^(isolinux_dir.*)/x86_64/isolinux,$1/i586/isolinux,' core/isolinux.asm
-%make DATE="%{vendor} Linux"
-mv core/isolinux.bin core/isolinux-i586.bin
-
-mv core/isolinux.bin.normal core/isolinux.bin
 
 %install
 # AUXDIR is explicitly set because upstream sets AUXDIR to %{_datadir}/%{name}
@@ -115,8 +104,6 @@ install -m 0644 %SOURCE3 %{buildroot}%{pxebase}/pxelinux.cfg/default
 perl -pi -e "s|VERSION|%version|g" %{buildroot}%{pxebase}/messages
 install -m 0644 core/pxelinux.0 %{buildroot}%{pxebase}/linux.0
 install -m 0644 memdisk/memdisk %{buildroot}%{pxebase}/memdisk
-install -m 0644 core/isolinux-i586.bin %{buildroot}/%{_prefix}/lib/syslinux/
-install -m 0644 core/isolinux-x86_64.bin %{buildroot}/%{_prefix}/lib/syslinux/
 
 %files
 %doc COPYING NEWS README doc/*.txt
