@@ -1,0 +1,24 @@
+--- doc/syslinux.txt	2009-12-18 23:29:51.000000000 +0000
++++ doc/syslinux.txt.patched	2011-05-06 08:06:34.406624837 +0000
+@@ -404,8 +404,8 @@
+ 	layout and the locations of = and , (two special characters
+ 	used heavily on the Linux kernel command line.)
+ 
+-	The included program keytab-lilo.pl from the LILO distribution
+-	can be used to create such keymaps.  The file keytab-lilo.txt
++	The program keytab-lilo.pl from the LILO distribution can be 
++	used to create such keymaps. The file keytab-lilo.txt
+ 	contains the documentation for this program.
+ 
+ DISPLAY filename
+--- utils/Makefile	2009-12-18 23:29:51.000000000 +0000
++++ utils/Makefile.patched	2011-05-06 08:04:50.906560520 +0000
+@@ -21,7 +21,7 @@
+ LDFLAGS  = -O2 -s
+ 
+ TARGETS	 = mkdiskimage isohybrid gethostip
+-ASIS     = keytab-lilo lss16toppm md5pass ppmtolss16 sha1pass syslinux2ansi \
++ASIS     = lss16toppm md5pass ppmtolss16 sha1pass syslinux2ansi \
+ 	   pxelinux-options
+ 
+ ISOHDPFX = ../mbr/isohdpfx.bin ../mbr/isohdpfx_f.bin ../mbr/isohdpfx_c.bin \

@@ -1,0 +1,6 @@
+sources:
+  "pxelinux-default:"	8fe8602909878b6474b771dc82bc53162f38512a
+  "pxelinux-help.txt:"	6f821b76358f954e0ee93987126c399071b5dcb4
+  "pxelinux-messages:"	7b675e8e70d46e16c4c09b3748daf3eb284aea61
+  "syslinux-4.05.tar.bz2:"	1be0d53288740794af91433cd5cb27a518fc5302
+  "syslinux-4.05.tar.sign:"	5c21044507db38a81456d64babe196a5d2fcea54
