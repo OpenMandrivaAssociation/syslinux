@@ -1,0 +1,16 @@
+PROMPT 1
+DEFAULT local
+DISPLAY messages
+TIMEOUT 50
+F1 help.txt
+
+label local
+	LOCALBOOT 0
+
+#label linux
+#	KERNEL memdisk
+#	APPEND initrd=images/linux/network.img
+
+#label linux1
+#  KERNEL vmlinuz 
+#  APPEND initrd=network.rdz ramdisk_size=32000 vga=788 kickstart=Mandrake/base/auto_inst.cfg.pl useless_thing_accepted automatic=method:nfs,network:dhcp,interface:eth0,dns:192.168.100.11,server:192.168.200.1,directory:/install root=/dev/ram3
