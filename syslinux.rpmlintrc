@@ -1,0 +1,3 @@
+# Those are before-boot binaries...
+addFilter("E: library-not-linked-against-libc")
+addFilter("E: shared-lib-without-dependency-information")

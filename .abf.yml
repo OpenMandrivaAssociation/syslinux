@@ -1,2 +1,5 @@
+removed_sources:
+  syslinux-4.05.tar.bz2: 1be0d53288740794af91433cd5cb27a518fc5302
 sources:
-  "syslinux-4.05.tar.bz2": 1be0d53288740794af91433cd5cb27a518fc5302
+  syslinux-5.01.tar.bz2: c41eecaad46a6d90bbdc7a855a6c2561aabc1e03
+  syslinux-5.01.tar.sign: 0cd22e31cb5dba3417d79a0d04fb413297566269

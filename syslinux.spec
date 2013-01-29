@@ -4,8 +4,8 @@
 
 Summary:    A bootloader for linux using floppies, CD
 Name:       syslinux
-Version:    4.05
-Release:    4
+Version:    5.01
+Release:    1
 License:    GPLv2+
 Group:      System/Kernel and hardware
 Url:        http://syslinux.zytor.com/
@@ -14,12 +14,12 @@ Source4:    http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{versio
 Source1:    pxelinux-help.txt
 Source2:    pxelinux-messages
 Source3:    pxelinux-default
+Source100:  %name.rpmlintrc
 Patch4:     remove-win32-from-build.patch
 # (fc) 3.73-3mdv fix partition table created by isohybrid (pterjan)
 Patch6:     syslinux-3.84-fixisohybrid.patch
 Patch7:     syslinux-3.84_remove_keytab-lilo.patch
-Patch8:     syslinux-4.05-use-ext2_fs.h-from-e2fsprogs.patch
-Patch9:     syslinux-4.05.LD.test.patch
+Patch9:     syslinux-5.01.LD.test.patch
 ExclusiveArch:  %{ix86} x86_64
 BuildRequires:  nasm
 BuildRequires:  netpbm
@@ -66,7 +66,6 @@ necessary to compile such modules.
 #%patch4 -p1 -b .win32
 #%patch6 -p1 -b .fixisohybrid
 #%patch7 -p0
-%patch8 -p1 -b .ext2fs~
 %patch9 -p1
 
 %build
