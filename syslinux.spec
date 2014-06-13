@@ -6,7 +6,7 @@ Summary:    A bootloader for linux using floppies, CD
 Name:       syslinux
 Epoch:      1
 Version:    4.06
-Release:    5
+Release:    6
 License:    GPLv2+
 Group:      System/Kernel and hardware
 Url:        http://syslinux.zytor.com/
