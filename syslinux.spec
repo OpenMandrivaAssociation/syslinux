@@ -20,6 +20,9 @@ BuildRequires:	netpbm
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(ext2fs)
 Provides:	isolinux = %{EVRD}
+Requires:	efibootmgr
+Requires:	dosfstools
+Requires:	mtools
 
 %description
 SYSLINUX is a boot loader for the Linux operating system which
