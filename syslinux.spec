@@ -2,25 +2,24 @@
 %define tftpbase /var/lib/tftpboot
 %define pxebase %{tftpbase}/X86PC/linux
 
-Summary:    A bootloader for linux using floppies, CD
-Name:       syslinux
-Epoch:      1
-Version:    4.06
-Release:    8
-License:    GPLv2+
-Group:      System/Kernel and hardware
-Url:        http://syslinux.zytor.com/
-Source0:    http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.bz2
-Source4:    http://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.sign
-Source1:    pxelinux-help.txt
-Source2:    pxelinux-messages
-Source3:    pxelinux-default
-ExclusiveArch:  %{ix86} x86_64
-BuildRequires:  nasm
-BuildRequires:  netpbm
-Buildrequires:  pkgconfig(uuid)
-BuildRequires:  pkgconfig(ext2fs)
-Provides:   isolinux = %{version}
+Summary:	A bootloader for linux using floppies, CD
+Name:		syslinux
+Epoch:		1
+Version:	6.03
+Release:	1
+License:	GPLv2+
+Group:		System/Kernel and hardware
+Url:		http://syslinux.zytor.com/
+Source0:	https://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.xz
+Source1:	pxelinux-help.txt
+Source2:	pxelinux-messages
+Source3:	pxelinux-default
+ExclusiveArch:	%{ix86} x86_64
+BuildRequires:	nasm
+BuildRequires:	netpbm
+BuildRequires:	pkgconfig(uuid)
+BuildRequires:	pkgconfig(ext2fs)
+Provides:	isolinux = %{EVRD}
 
 %description
 SYSLINUX is a boot loader for the Linux operating system which
@@ -29,29 +28,29 @@ simplify first-time installation of Linux, and for creation of rescue-
 and other special-purpose boot disks.
 
 %package -n pxelinux
-Summary:    A PXE bootloader
-Group:      System/Kernel and hardware
-Requires:   syslinux
+Summary:	A PXE bootloader
+Group:		System/Kernel and hardware
+Requires:	syslinux = %{EVRD}
 
 %description -n pxelinux
 PXELINUX is a PXE bootloader.
 
-%package    perl
-Summary:    Syslinux tools written in perl
-Group:      System/Kernel and hardware
-Requires:   syslinux
-Conflicts:  syslinux < 4.05-3
+%package perl
+Summary:	Syslinux tools written in perl
+Group:		System/Kernel and hardware
+Requires:	syslinux = %{EVRD}
+Conflicts:	syslinux < 4.05-3
 
-%description    perl
+%description perl
 Syslinux tools written in perl.
 
-%package    devel
-Summary:    Development environment for SYSLINUX add-on modules
-Group:      Development/Other
-Requires:   tftp-server
-Requires:   syslinux
+%package devel
+Summary:	Development environment for SYSLINUX add-on modules
+Group:		Development/Other
+Requires:	tftp-server
+Requires:	syslinux = %{EVRD}
 
-%description    devel
+%description devel
 The SYSLINUX boot loader contains an API, called COM32, for writing
 sophisticated add-on modules.  This package contains the libraries
 necessary to compile such modules.
@@ -61,7 +60,7 @@ necessary to compile such modules.
 
 %build
 rm -f diag/geodsp/mk-lba-img
-%make DATE="%{vendor} Linux" installer
+%make DATE="%{vendor}" installer
 
 %install
 # AUXDIR is explicitly set because upstream sets AUXDIR to %{_datadir}/%{name}
