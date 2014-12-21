@@ -62,40 +62,23 @@ necessary to compile such modules.
 %setup -q
 
 %build
-rm -f diag/geodsp/mk-lba-img
-%make DATE="%{vendor}" installer
+%make CC="%{_cc}" bios
+%make CC="%{_cc}" installer
+%make CC="%{_cc}" efi64
 
 %install
-# AUXDIR is explicitly set because upstream sets AUXDIR to %{_datadir}/%{name}
-# but we favour AUXDIR set to %{_prefix}/lib/%{name} for backward compatibility
-# with our syslinux 3.63 package
+install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
+install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
+
 %make install \
-  INSTALLROOT=%{buildroot} \
-  BINDIR=%{_bindir} \
-  SBINDIR=%{_sbindir} \
-  LIBDIR=%{_prefix}/lib \
-  MANDIR=%{_mandir} \
-  INCDIR=%{_includedir} \
-  AUXDIR=%{_prefix}/lib/%{name}
+	firmware="bios efi64" \
+	INSTALLROOT=%{buildroot} \
+	LIBDIR=%{_prefix}/lib \
+	MANDIR=%{_mandir}
 
-mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/menu
-cp -av com32/menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
-
-install -d %{buildroot}%{pxebase}/pxelinux.cfg/
-install -m 0644 %SOURCE1 %{buildroot}%{pxebase}/help.txt
-install -m 0644 %SOURCE2 %{buildroot}%{pxebase}/messages
-install -m 0644 %SOURCE3 %{buildroot}%{pxebase}/pxelinux.cfg/default
-perl -pi -e "s|VERSION|%version|g" %{buildroot}%{pxebase}/messages
-install -m 0644 core/pxelinux.0 %{buildroot}%{pxebase}/linux.0
-install -m 0644 memdisk/memdisk %{buildroot}%{pxebase}/memdisk
-
-# Workaround for isohybrid, memdiskfind and gethostip getting the same build-ID
-%__strip --strip-unneeded \
-	%buildroot%_bindir/gethostip \
-	%buildroot%_bindir/memdiskfind
 
 %files
-%doc COPYING NEWS README doc/*.txt
+%doc NEWS README* doc/*.txt
 %{_bindir}/gethostip
 %{_bindir}/isohybrid
 %{_bindir}/memdiskfind
