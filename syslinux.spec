@@ -62,9 +62,9 @@ necessary to compile such modules.
 %setup -q
 
 %build
-%make CC="%{_cc}" bios
-%make CC="%{_cc}" installer
-%make CC="%{_cc}" efi64
+%make CC="%{__cc}" bios
+%make CC="%{__cc}" installer
+%make CC="%{__cc}" efi64
 
 %install
 install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
