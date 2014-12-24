@@ -67,15 +67,15 @@ export CC="gcc -fuse-ld=bfd"
 
 sed -i 's/-march=i386//' sample/Makefile
 
-%make CC="$CC" LD=ld.bfd bios
-%make CC="$CC" LD=ld.bfd installer
-%make CC="$CC" LD=ld.bfd efi64
+%make -j1 CC="$CC" LD=ld.bfd bios
+%make -j1 CC="$CC" LD=ld.bfd installer
+%make -j1 CC="$CC" LD=ld.bfd efi64
 
 %install
 install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
 install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 
-%make install \
+%make -j1 install \
 	firmware="bios efi64" \
 	INSTALLROOT=%{buildroot} \
 	LIBDIR=%{_prefix}/lib \
