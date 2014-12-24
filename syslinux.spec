@@ -62,6 +62,8 @@ necessary to compile such modules.
 %setup -q
 
 %build
+export CC=gcc
+
 %make CC="%{__cc}" bios
 %make CC="%{__cc}" installer
 %make CC="%{__cc}" efi64
