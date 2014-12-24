@@ -65,6 +65,8 @@ necessary to compile such modules.
 %define _disable_ld_no_undefined 1
 export CC="gcc -fuse-ld=bfd"
 
+sed -i 's/-march=i386//' sample/Makefile
+
 %make CC="$CC" LD=ld.bfd bios
 %make CC="$CC" LD=ld.bfd installer
 %make CC="$CC" LD=ld.bfd efi64
