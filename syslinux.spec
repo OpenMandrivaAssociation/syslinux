@@ -62,6 +62,7 @@ necessary to compile such modules.
 %setup -q
 
 %build
+%define _disable_ld_no_undefined 1
 export CC="gcc -fuse-ld=bfd"
 
 %make CC="$CC" LD=ld.bfd bios
