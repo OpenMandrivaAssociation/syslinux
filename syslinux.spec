@@ -62,7 +62,7 @@ necessary to compile such modules.
 %setup -q
 
 %build
-export CC=gcc
+export CC="gcc -fuse-ld=bfd"
 
 %make CC="$CC" bios
 %make CC="$CC" installer
