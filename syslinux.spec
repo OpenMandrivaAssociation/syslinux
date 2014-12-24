@@ -64,9 +64,9 @@ necessary to compile such modules.
 %build
 export CC="gcc -fuse-ld=bfd"
 
-%make CC="$CC" bios
-%make CC="$CC" installer
-%make CC="$CC" efi64
+%make CC="$CC" LD=ld.bfd bios
+%make CC="$CC" LD=ld.bfd installer
+%make CC="$CC" LD=ld.bfd efi64
 
 %install
 install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
