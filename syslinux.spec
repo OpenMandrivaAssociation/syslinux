@@ -69,9 +69,11 @@ export CC="gcc -fuse-ld=bfd"
 
 sed -i 's/-march=i386//' sample/Makefile
 
-%make -j1 CC="$CC" LD=ld.bfd bios
-%make -j1 CC="$CC" LD=ld.bfd installer
-%make -j1 CC="$CC" LD=ld.bfd efi64
+%make -j1 CC="$CC" LD="ld.bfd" bios clean all
+
+%ifarch %{x86_64}
+%make -j1 CC="$CC" LD="ld.bfd" efi64 clean all
+%endif
 
 %install
 install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
@@ -83,6 +85,19 @@ install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 	LIBDIR=%{_prefix}/lib \
 	MANDIR=%{_mandir}
 
+%make -j1 bios install-all \
+	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
+	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
+	MANDIR=%{_mandir} INCDIR=%{_includedir} \
+    LDLINUX=ldlinux.c32
+
+%ifarch %{x86_64}
+make efi64 install netinstall \
+	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
+	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
+	MANDIR=%{_mandir} INCDIR=%{_includedir} \
+	LDLINUX=ldlinux.c32
+%endif
 
 %files
 %doc NEWS README* doc/*.txt
