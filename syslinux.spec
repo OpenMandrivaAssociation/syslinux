@@ -63,6 +63,8 @@ necessary to compile such modules.
 
 %build
 %define _disable_ld_no_undefined 1
+%setup_compile_flags
+
 export CC="gcc -fuse-ld=bfd"
 
 sed -i 's/-march=i386//' sample/Makefile
