@@ -69,10 +69,10 @@ export CC="gcc -fuse-ld=bfd"
 
 sed -i 's/-march=i386//' sample/Makefile
 
-%make -j1 CC="$CC" LD="ld.bfd" bios clean all
+%make -j1 CC="$CC" LD="ld.bfd" ARCH=%{_arch} bios clean all
 
 %ifarch %{x86_64}
-%make -j1 CC="$CC" LD="ld.bfd" efi64 clean all
+%make -j1 CC="$CC" LD="ld.bfd" ARCH=%{_arch} efi64 clean all
 %endif
 
 %install
