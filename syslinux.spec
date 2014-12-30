@@ -64,7 +64,7 @@ necessary to compile such modules.
 %build
 export CC="gcc -fuse-ld=bfd"
 
-make CC="$CC" LD="ld.bfd" bios clean all
+make CC="$CC" LD="ld.bfd -m elf_i386" bios clean all
 %ifarch %{x86_64}
 make CC="$CC" LD="ld.bfd" efi64 clean all
 %endif
