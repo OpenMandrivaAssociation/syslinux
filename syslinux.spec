@@ -62,35 +62,30 @@ necessary to compile such modules.
 %setup -q
 
 %build
-%define _disable_ld_no_undefined 1
-%setup_compile_flags
+#define _disable_ld_no_undefined 1
+#setup_compile_flags
 
-export CC="gcc -fuse-ld=bfd"
+#export CC="gcc -fuse-ld=bfd"
 
-sed -i 's/-march=i386//' sample/Makefile
-sed -i 's/ARCH=i386//' Makefile
+#sed -i 's/-march=i386//' sample/Makefile
+#sed -i 's/ARCH=i386//' Makefile
 
-%make -j1 CC="$CC" LD="ld.bfd" bios clean all
+#make -j1 CC="$CC" LD="ld.bfd" bios clean all
 
+make bios clean all
 %ifarch %{x86_64}
-%make -j1 CC="$CC" LD="ld.bfd" efi64 clean all
+make efi64 clean all
 %endif
 
 %install
-install -d %{buildroot}{%{_bindir},%{_prefix}/lib/%{name},%{_includedir}}
+install -d %{buildroot}{%{_bindir},%{_sbindir},%{_prefix}/lib/%{name},%{_includedir}}
 install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 
-%make -j1 install \
-	firmware="bios efi64" \
-	INSTALLROOT=%{buildroot} \
-	LIBDIR=%{_prefix}/lib \
-	MANDIR=%{_mandir}
-
-%make -j1 bios install-all \
+make bios install-all \
 	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
 	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
 	MANDIR=%{_mandir} INCDIR=%{_includedir} \
-    LDLINUX=ldlinux.c32
+	LDLINUX=ldlinux.c32
 
 %ifarch %{x86_64}
 make efi64 install netinstall \
