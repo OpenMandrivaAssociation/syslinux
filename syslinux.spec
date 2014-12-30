@@ -64,19 +64,11 @@ necessary to compile such modules.
 %setup -q
 
 %build
-#define _disable_ld_no_undefined 1
-#setup_compile_flags
+export CC="gcc -fuse-ld=bfd"
 
-#export CC="gcc -fuse-ld=bfd"
-
-#sed -i 's/-march=i386//' sample/Makefile
-#sed -i 's/ARCH=i386//' Makefile
-
-#make -j1 CC="$CC" LD="ld.bfd" bios clean all
-
-make bios clean all
+make CC="$CC" LD="ld.bfd -m elf_i386" bios clean all
 %ifarch %{x86_64}
-make efi64 clean all
+make CC="$CC" LD="ld.bfd" efi64 clean all
 %endif
 
 %install
