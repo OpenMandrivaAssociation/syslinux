@@ -71,41 +71,29 @@ necessary to compile such modules.
 %build
 export CC="gcc -fuse-ld=bfd"
 
-# clean out 
-make -j spotless || true
-	
-TARGETS=bios
-
-%ifarch x86_64
-export TARGETS="$TARGETS efi64"
-%endif
-
-%ifarch %{ix86}
-export TARGETS="$TARGETS efi32"
-%endif
-
-make CC="$CC" LD="ld.bfd -melf_i386" DATE="OpenMandriva" $TARGETS clean all
+make CC="$CC" LD="ld.bfd -melf_i386" DATE="OpenMandriva"  bios clean all
+%ifarch %{x86_64}
+make CC="$CC" LD="ld.bfd" DATE="OpenMandriva"  efi64 clean all
 
 %install
 install -d %{buildroot}{%{_bindir},%{_sbindir},%{_prefix}/lib/%{name},%{_includedir}}
 install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 
-TARGETS=bios
-
-%ifarch x86_64
-export TARGETS="$TARGETS efi64"
-%endif
-
-%ifarch %{ix86}
-export TARGETS="$TARGETS efi32"
-%endif
-
-make $TARGETS install \
+make bios install-all \
 	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
 	AUXDIR=%{_prefix}/lib/%{name} \
 	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
 	MANDIR=%{_mandir} INCDIR=%{_includedir} \
 	LDLINUX=ldlinux.c32
+
+%ifarch %{x86_64}
+make efi64 install netinstall \
+	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
+	AUXDIR=%{_prefix}/lib/%{name} \
+	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
+	MANDIR=%{_mandir} INCDIR=%{_includedir} \
+	LDLINUX=ldlinux.c32
+%endif
 
 %files
 %doc NEWS README* doc/*.txt
