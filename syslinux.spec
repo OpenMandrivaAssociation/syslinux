@@ -43,6 +43,13 @@ Requires:	syslinux = %{EVRD}
 %description -n pxelinux
 PXELINUX is a PXE bootloader.
 
+%package -n extlinux
+Summary:	An ext{2|3|4} bootloader
+Group:		System/Kernel and hardware
+
+%description -n extlinux
+Extlinux is an ext{2|3|4} bootloader.
+
 %package perl
 Summary:	Syslinux tools written in perl
 Group:		System/Kernel and hardware
@@ -97,7 +104,7 @@ make efi64 install netinstall \
 %endif
 
 %files
-%doc NEWS README* doc/*.txt
+%doc COPYING NEWS README doc/*.txt
 %{_bindir}/gethostip
 %{_bindir}/isohybrid
 %{_bindir}/memdiskfind
@@ -119,6 +126,11 @@ make efi64 install netinstall \
 %config(noreplace) %{pxebase}/messages
 %config(noreplace) %{pxebase}/help.txt
 %config(noreplace) %{pxebase}/pxelinux.cfg/default
+
+%files -n extlinux
+%doc doc/extlinux.txt
+%{_sbindir}/extlinux
+%{_prefix}/lib/%{name}/mbr.bin
 
 %files perl
 %{_bindir}/keytab-lilo
