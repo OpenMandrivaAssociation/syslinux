@@ -71,6 +71,9 @@ necessary to compile such modules.
 %build
 export CC="gcc -fuse-ld=bfd"
 
+# clean out 
+make -j spotless || true
+	
 TARGETS=bios
 
 %ifarch x86_64
