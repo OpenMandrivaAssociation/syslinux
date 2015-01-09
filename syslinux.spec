@@ -74,6 +74,7 @@ export CC="gcc -fuse-ld=bfd"
 make CC="$CC" LD="ld.bfd -melf_i386" DATE="OpenMandriva"  bios clean all
 %ifarch %{x86_64}
 make CC="$CC" LD="ld.bfd" DATE="OpenMandriva"  efi64 clean all
+%endif
 
 %install
 install -d %{buildroot}{%{_bindir},%{_sbindir},%{_prefix}/lib/%{name},%{_includedir}}
