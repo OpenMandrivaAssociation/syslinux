@@ -1,0 +1,18 @@
+--- syslinux-6.03/Makefile~	2014-10-06 18:27:44.000000000 +0200
++++ syslinux-6.03/Makefile	2015-01-08 18:03:59.056901061 +0100
+@@ -163,7 +163,6 @@ BOBJECTS = $(BTARGET) \
+ 	core/pxelinux.0 core/lpxelinux.0 \
+ 	core/isolinux.bin core/isolinux-debug.bin \
+ 	gpxe/gpxelinux.0 dos/syslinux.com \
+-	win32/syslinux.exe win64/syslinux64.exe \
+ 	dosutil/*.com dosutil/*.sys \
+ 	$(MODULES)
+ 
+@@ -203,7 +202,6 @@ INSTALL_AUX   =	core/pxelinux.0 gpxe/gpx
+ 		core/isolinux.bin core/isolinux-debug.bin \
+ 		dos/syslinux.com core/lpxelinux.0 \
+ 		mbr/*.bin $(INSTALLABLE_MODULES)
+-INSTALL_AUX_OPT = win32/syslinux.exe win64/syslinux64.exe
+ INSTALL_DIAG  =	diag/mbr/handoff.bin \
+ 		diag/geodsp/geodsp1s.img.xz diag/geodsp/geodspms.img.xz
+ 
