@@ -14,6 +14,7 @@ Source0:	https://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
+Source4:	syslinux.rpmlintrc
 Patch0:		syslinux-6.03-dont-build-syslinux.exe-as-we-have-no-mingw-available.patch
 Patch1:		0001-Add-install-all-target-to-top-side-of-HAVE_FIRMWARE.patch
 ExclusiveArch:	%{ix86} x86_64
