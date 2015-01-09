@@ -103,21 +103,112 @@ make efi64 install netinstall \
 	LDLINUX=ldlinux.c32
 %endif
 
+mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/menu
+cp -av com32/menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
+
+install -d %{buildroot}%{pxebase}/pxelinux.cfg/
+install -m 0644 %SOURCE1 %{buildroot}%{pxebase}/help.txt
+install -m 0644 %SOURCE2 %{buildroot}%{pxebase}/messages
+install -m 0644 %SOURCE3 %{buildroot}%{pxebase}/pxelinux.cfg/default
+perl -pi -e "s|VERSION|%version|g" %{buildroot}%{pxebase}/messages
+install -m 0644 bios/core/pxelinux.0 %{buildroot}%{pxebase}/linux.0
+install -m 0644 bios/memdisk/memdisk %{buildroot}%{pxebase}/memdisk
+install -m 0644 bios/core/isolinux-*.bin %{buildroot}/%{_prefix}/lib/syslinux/
+
 %files
 %doc COPYING NEWS README doc/*.txt
-%{_bindir}/gethostip
-%{_bindir}/isohybrid
-%{_bindir}/memdiskfind
-%{_bindir}/syslinux
-%{_sbindir}/extlinux
-%dir %{_prefix}/lib/%{name}
-%{_prefix}/lib/%{name}/*
-%{_mandir}/man1/gethostip*
-%{_mandir}/man1/syslinux*
-%{_mandir}/man1/extlinux*
-%exclude %{_mandir}/man1/syslinux2ansi*
-%exclude %{_prefix}/lib/%{name}/com32
-%exclude %{_prefix}/lib/%{name}/menu
+%{_bindir}/*
+%{_prefix}/lib/%{name}/altmbr.bin
+%{_prefix}/lib/%{name}/altmbr_c.bin
+%{_prefix}/lib/%{name}/altmbr_f.bin
+%{_prefix}/lib/%{name}/cat.c32
+%{_prefix}/lib/%{name}/chain.c32
+%{_prefix}/lib/%{name}/cmd.c32
+%{_prefix}/lib/%{name}/cmenu.c32
+%{_prefix}/lib/%{name}/config.c32
+%{_prefix}/lib/%{name}/cpu.c32
+%{_prefix}/lib/%{name}/cpuid.c32
+%{_prefix}/lib/%{name}/cpuidtest.c32
+%{_prefix}/lib/%{name}/cptime.c32
+%{_prefix}/lib/%{name}/debug.c32
+%{_prefix}/lib/%{name}/dhcp.c32
+%{_prefix}/lib/%{name}/diag/geodsp1s.img.xz
+%{_prefix}/lib/%{name}/diag/geodspms.img.xz
+%{_prefix}/lib/%{name}/diag/handoff.bin
+%{_prefix}/lib/%{name}/disk.c32
+%{_prefix}/lib/%{name}/dmi.c32
+%{_prefix}/lib/%{name}/dmitest.c32
+%{_prefix}/lib/%{name}/dosutil/copybs.com
+%{_prefix}/lib/%{name}/dosutil/eltorito.sys
+%{_prefix}/lib/%{name}/dosutil/mdiskchk.com
+%{_prefix}/lib/%{name}/elf.c32
+%{_prefix}/lib/%{name}/ethersel.c32
+%{_prefix}/lib/%{name}/gfxboot.c32
+%{_prefix}/lib/%{name}/gptmbr.bin
+%{_prefix}/lib/%{name}/gptmbr_c.bin
+%{_prefix}/lib/%{name}/gptmbr_f.bin
+%{_prefix}/lib/%{name}/gpxecmd.c32
+%{_prefix}/lib/%{name}/gpxelinux.0
+%{_prefix}/lib/%{name}/gpxelinuxk.0
+%{_prefix}/lib/%{name}/hexdump.c32
+%{_prefix}/lib/%{name}/hdt.c32
+%{_prefix}/lib/%{name}/host.c32
+%{_prefix}/lib/%{name}/ifcpu.c32
+%{_prefix}/lib/%{name}/ifcpu64.c32
+%{_prefix}/lib/%{name}/ifplop.c32
+%{_prefix}/lib/%{name}/ifmemdsk.c32
+%{_prefix}/lib/%{name}/isohdpfx.bin
+%{_prefix}/lib/%{name}/isohdpfx_c.bin
+%{_prefix}/lib/%{name}/isohdpfx_f.bin
+%{_prefix}/lib/%{name}/isohdppx.bin
+%{_prefix}/lib/%{name}/isohdppx_c.bin
+%{_prefix}/lib/%{name}/isohdppx_f.bin
+%{_prefix}/lib/%{name}/isolinux-debug.bin
+%{_prefix}/lib/%{name}/isolinux.bin
+%{_prefix}/lib/%{name}/isolinux-i586.bin
+%{_prefix}/lib/%{name}/isolinux-x86_64.bin
+%{_prefix}/lib/%{name}/kbdmap.c32
+%{_prefix}/lib/%{name}/kontron_wdt.c32
+%{_prefix}/lib/%{name}/ldlinux.c32
+%{_prefix}/lib/%{name}/lfs.c32
+%{_prefix}/lib/%{name}/linux.c32
+%{_prefix}/lib/%{name}/libcom32.c32
+%{_prefix}/lib/%{name}/libgpl.c32
+%{_prefix}/lib/%{name}/liblua.c32
+%{_prefix}/lib/%{name}/libmenu.c32
+%{_prefix}/lib/%{name}/libutil.c32
+%{_prefix}/lib/%{name}/lpxelinux.0
+%{_prefix}/lib/%{name}/ls.c32
+%{_prefix}/lib/%{name}/lua.c32
+%{_prefix}/lib/%{name}/mboot.c32
+%{_prefix}/lib/%{name}/mbr.bin
+%{_prefix}/lib/%{name}/mbr_c.bin
+%{_prefix}/lib/%{name}/mbr_f.bin
+%{_prefix}/lib/%{name}/memdisk
+%{_prefix}/lib/%{name}/meminfo.c32
+%{_prefix}/lib/%{name}/menu.c32
+%{_prefix}/lib/%{name}/pci.c32
+%{_prefix}/lib/%{name}/pcitest.c32
+%{_prefix}/lib/%{name}/pmload.c32
+%{_prefix}/lib/%{name}/poweroff.c32
+%{_prefix}/lib/%{name}/prdhcp.c32
+%{_prefix}/lib/%{name}/pxelinux.0
+%{_prefix}/lib/%{name}/pxechn.c32
+%{_prefix}/lib/%{name}/pwd.c32
+%{_prefix}/lib/%{name}/reboot.c32
+%{_prefix}/lib/%{name}/rosh.c32
+%{_prefix}/lib/%{name}/sanboot.c32
+%{_prefix}/lib/%{name}/sdi.c32
+%{_prefix}/lib/%{name}/syslinux.com
+%{_prefix}/lib/%{name}/syslinux.c32
+%{_prefix}/lib/%{name}/sysdump.c32
+%{_prefix}/lib/%{name}/vesa.c32
+%{_prefix}/lib/%{name}/vesainfo.c32
+%{_prefix}/lib/%{name}/vesamenu.c32
+%{_prefix}/lib/%{name}/vpdtest.c32
+%{_prefix}/lib/%{name}/whichsys.c32
+%{_prefix}/lib/%{name}/zzjson.c32
+%{_mandir}/man1/*.1*
 
 %files -n pxelinux
 %doc doc/pxelinux.txt
