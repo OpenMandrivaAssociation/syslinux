@@ -14,6 +14,8 @@ Source0:	https://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
 Source3:	pxelinux-default
+Patch0:		syslinux-6.03-dont-build-syslinux.exe-as-we-have-no-mingw-available.patch
+Patch1:		0001-Add-install-all-target-to-top-side-of-HAVE_FIRMWARE.patch
 ExclusiveArch:	%{ix86} x86_64
 BuildRequires:	nasm
 BuildRequires:	netpbm
@@ -62,11 +64,13 @@ necessary to compile such modules.
 
 %prep
 %setup -q
+%patch0 -p1 -b .nomingw~
+%patch1 -p1 -b .install_all~
 
 %build
 export CC="gcc -fuse-ld=bfd"
 
-make CC="$CC" LD="ld.bfd -m elf_i386" bios clean all
+make CC="$CC" LD="ld.bfd -melf_i386" bios clean all
 %ifarch %{x86_64}
 make CC="$CC" LD="ld.bfd" efi64 clean all
 %endif
