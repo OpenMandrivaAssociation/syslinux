@@ -71,28 +71,38 @@ necessary to compile such modules.
 %build
 export CC="gcc -fuse-ld=bfd"
 
-make CC="$CC" LD="ld.bfd -melf_i386" bios clean all
-%ifarch %{x86_64}
-make CC="$CC" LD="ld.bfd" efi64 clean all
+TARGETS=bios
+
+%ifarch x86_64
+export TARGETS="$TARGETS efi64"
 %endif
+
+%ifarch %{ix86}
+export TARGETS="$TARGETS efi32"
+%endif
+
+make CC="$CC" LD="ld.bfd -melf_i386" DATE="OpenMandriva" $TARGETS clean all
 
 %install
 install -d %{buildroot}{%{_bindir},%{_sbindir},%{_prefix}/lib/%{name},%{_includedir}}
 install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 
-make bios install-all \
-	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
-	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
-	MANDIR=%{_mandir} INCDIR=%{_includedir} \
-	LDLINUX=ldlinux.c32
+TARGETS=bios
 
-%ifarch %{x86_64}
-make efi64 install netinstall \
+%ifarch x86_64
+export TARGETS="$TARGETS efi64"
+%endif
+
+%ifarch %{ix86}
+export TARGETS="$TARGETS efi32"
+%endif
+
+make $TARGETS install \
 	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
+	AUXDIR=%{_prefix}/lib/%{name} \
 	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
 	MANDIR=%{_mandir} INCDIR=%{_includedir} \
 	LDLINUX=ldlinux.c32
-%endif
 
 %files
 %doc NEWS README* doc/*.txt
