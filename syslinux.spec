@@ -22,6 +22,7 @@ BuildRequires:	netpbm
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	upx
+BuildRequires:	gnu-efi
 Provides:	isolinux = %{EVRD}
 Requires:	efibootmgr
 Requires:	dosfstools
