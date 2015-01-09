@@ -92,6 +92,7 @@ make bios install-all \
 	AUXDIR=%{_prefix}/lib/%{name} \
 	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
 	MANDIR=%{_mandir} INCDIR=%{_includedir} \
+	TFTPBOOT=%tftpbase  EXTLINUXDIR=/boot/extlinux \
 	LDLINUX=ldlinux.c32
 
 %ifarch %{x86_64}
@@ -99,6 +100,7 @@ make efi64 install netinstall \
 	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
 	AUXDIR=%{_prefix}/lib/%{name} \
 	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
+	TFTPBOOT=%tftpbase  EXTLINUXDIR=/boot/extlinux \
 	MANDIR=%{_mandir} INCDIR=%{_includedir} \
 	LDLINUX=ldlinux.c32
 %endif
