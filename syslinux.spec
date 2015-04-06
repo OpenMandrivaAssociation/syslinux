@@ -47,18 +47,18 @@ PXELINUX is a PXE bootloader.
 %package -n extlinux
 Summary:	An ext{2|3|4} bootloader
 Group:		System/Kernel and hardware
+# b/c mbr.bin is in both syslinux & extlinux:
+Conflicts:	syslinux < 6.03
 
 %description -n extlinux
 Extlinux is an ext{2|3|4} bootloader.
 
-%package perl
-Summary:	Syslinux tools written in perl
+%package efi
+Summary:	An efi loader
 Group:		System/Kernel and hardware
-Requires:	syslinux = %{EVRD}
-Conflicts:	syslinux < 4.05-3
 
-%description perl
-Syslinux tools written in perl.
+%description efi
+An efi loader.
 
 %package devel
 Summary:	Development environment for SYSLINUX add-on modules
@@ -77,34 +77,63 @@ necessary to compile such modules.
 %patch1 -p1 -b .install_all~
 
 %build
+#Let's restart from a clean repo
+#It's not a big deal if some fails (like efi*)
+make -j spotless || true
+
 export CC="gcc -fuse-ld=bfd"
 
-make CC="$CC" LD="ld.bfd -melf_i386" DATE="OpenMandriva"  bios clean all
-%ifarch %{x86_64}
-make CC="$CC" LD="ld.bfd" DATE="OpenMandriva"  efi64 clean all
+TARGETS=bios
+
+%ifarch x86_64
+export TARGETS="$TARGETS efi64"
+export CC="$CC" LD="ld.bfd"
 %endif
+
+%ifarch %{ix86}
+export TARGETS="$TARGETS efi32"
+export CC="$CC"
+export LD="ld.bfd -melf_i386"
+%endif
+
+make DATE="OpenMandriva" $TARGETS
+
+mv core/fs/iso9660/iso9660.c core/fs/iso9660/iso9660.orig
+mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
+
+for arch in i586 x86_64; do
+  cp -f core/fs/iso9660/iso9660.orig core/fs/iso9660/iso9660.c
+  perl -pi -e 's,\"\/isolinux,\"/'$arch'/isolinux,' core/fs/iso9660/iso9660.c
+  %make DATE="OpenMandriva" bios
+  mv bios/core/isolinux.bin bios/core/isolinux-$arch.bin
+done
+
+mv bios/core/isolinux.bin.normal bios/core/isolinux.bin
+mv -f core/fs/iso9660/iso9660.orig core/fs/iso9660/iso9660.c
+
 
 %install
 install -d %{buildroot}{%{_bindir},%{_sbindir},%{_prefix}/lib/%{name},%{_includedir}}
 install bios/core/ldlinux.sys %{buildroot}%{_prefix}/lib/%{name}
 
-make bios install-all \
-	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
-	AUXDIR=%{_prefix}/lib/%{name} \
-	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
-	MANDIR=%{_mandir} INCDIR=%{_includedir} \
-	TFTPBOOT=%tftpbase  EXTLINUXDIR=/boot/extlinux \
-	LDLINUX=ldlinux.c32
+TARGETS=bios
 
-%ifarch %{x86_64}
-make efi64 install netinstall \
-	INSTALLROOT=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} \
-	AUXDIR=%{_prefix}/lib/%{name} \
-	LIBDIR=%{_prefix}/lib DATADIR=%{_datadir} \
-	TFTPBOOT=%tftpbase  EXTLINUXDIR=/boot/extlinux \
-	MANDIR=%{_mandir} INCDIR=%{_includedir} \
-	LDLINUX=ldlinux.c32
+%ifarch x86_64
+export TARGETS="$TARGETS efi64"
 %endif
+
+%ifarch %{ix86}
+export TARGETS="$TARGETS efi32"
+%endif
+
+make $TARGETS install \
+  INSTALLROOT=%{buildroot} \
+  BINDIR=%{_bindir} \
+  SBINDIR=%{_sbindir} \
+  LIBDIR=%{_prefix}/lib \
+  MANDIR=%{_mandir} \
+  INCDIR=%{_includedir} \
+  AUXDIR=%{_prefix}/lib/%{name}
 
 mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/menu
 cp -av com32/menu/*  %{buildroot}/%{_prefix}/lib/%{name}/menu/
@@ -117,6 +146,10 @@ perl -pi -e "s|VERSION|%version|g" %{buildroot}%{pxebase}/messages
 install -m 0644 bios/core/pxelinux.0 %{buildroot}%{pxebase}/linux.0
 install -m 0644 bios/memdisk/memdisk %{buildroot}%{pxebase}/memdisk
 install -m 0644 bios/core/isolinux-*.bin %{buildroot}/%{_prefix}/lib/syslinux/
+
+# This file is already provided by lilo's package
+rm -f %{buildroot}/%{_bindir}/keytab-lilo
+rm -f doc/keytab-lilo.txt
 
 %files
 %doc COPYING NEWS README doc/*.txt
@@ -213,6 +246,68 @@ install -m 0644 bios/core/isolinux-*.bin %{buildroot}/%{_prefix}/lib/syslinux/
 %{_prefix}/lib/%{name}/zzjson.c32
 %{_mandir}/man1/*.1*
 
+%files efi
+%{_prefix}/lib/%{name}/efi*/cat.c32
+%{_prefix}/lib/%{name}/efi*/chain.c32
+%{_prefix}/lib/%{name}/efi*/cmd.c32
+%{_prefix}/lib/%{name}/efi*/config.c32
+%{_prefix}/lib/%{name}/efi*/cmenu.c32
+%{_prefix}/lib/%{name}/efi*/cptime.c32
+%{_prefix}/lib/%{name}/efi*/cpuid.c32
+%{_prefix}/lib/%{name}/efi*/cpu.c32
+%{_prefix}/lib/%{name}/efi*/cpuidtest.c32
+%{_prefix}/lib/%{name}/efi*/debug.c32
+%{_prefix}/lib/%{name}/efi*/dhcp.c32
+%{_prefix}/lib/%{name}/efi*/disk.c32
+%{_prefix}/lib/%{name}/efi*/dmi.c32
+%{_prefix}/lib/%{name}/efi*/dmitest.c32
+%{_prefix}/lib/%{name}/efi*/elf.c32
+%{_prefix}/lib/%{name}/efi*/ethersel.c32
+%{_prefix}/lib/%{name}/efi*/gfxboot.c32
+%{_prefix}/lib/%{name}/efi*/gpxecmd.c32
+%{_prefix}/lib/%{name}/efi*/hdt.c32
+%{_prefix}/lib/%{name}/efi*/hexdump.c32
+%{_prefix}/lib/%{name}/efi*/host.c32
+%{_prefix}/lib/%{name}/efi*/ifcpu.c32
+%{_prefix}/lib/%{name}/efi*/ifcpu64.c32
+%{_prefix}/lib/%{name}/efi*/ifmemdsk.c32
+%{_prefix}/lib/%{name}/efi*/ifplop.c32
+%{_prefix}/lib/%{name}/efi*/kbdmap.c32
+%{_prefix}/lib/%{name}/efi*/kontron_wdt.c32
+%{_prefix}/lib/%{name}/efi*/ldlinux.e*
+%{_prefix}/lib/%{name}/efi*/lfs.c32
+%{_prefix}/lib/%{name}/efi*/libcom32.c32
+%{_prefix}/lib/%{name}/efi*/libgpl.c32
+%{_prefix}/lib/%{name}/efi*/liblua.c32
+%{_prefix}/lib/%{name}/efi*/libmenu.c32
+%{_prefix}/lib/%{name}/efi*/libutil.c32
+%{_prefix}/lib/%{name}/efi*/linux.c32
+%{_prefix}/lib/%{name}/efi*/ls.c32
+%{_prefix}/lib/%{name}/efi*/lua.c32
+%{_prefix}/lib/%{name}/efi*/mboot.c32
+%{_prefix}/lib/%{name}/efi*/meminfo.c32
+%{_prefix}/lib/%{name}/efi*/menu.c32
+%{_prefix}/lib/%{name}/efi*/pci.c32
+%{_prefix}/lib/%{name}/efi*/pcitest.c32
+%{_prefix}/lib/%{name}/efi*/pmload.c32
+%{_prefix}/lib/%{name}/efi*/poweroff.c32
+%{_prefix}/lib/%{name}/efi*/prdhcp.c32
+%{_prefix}/lib/%{name}/efi*/pwd.c32
+%{_prefix}/lib/%{name}/efi*/pxechn.c32
+%{_prefix}/lib/%{name}/efi*/reboot.c32
+%{_prefix}/lib/%{name}/efi*/rosh.c32
+%{_prefix}/lib/%{name}/efi*/sanboot.c32
+%{_prefix}/lib/%{name}/efi*/sdi.c32
+%{_prefix}/lib/%{name}/efi*/sysdump.c32
+%{_prefix}/lib/%{name}/efi*/syslinux.efi
+%{_prefix}/lib/%{name}/efi*/syslinux.c32
+%{_prefix}/lib/%{name}/efi*/vesainfo.c32
+%{_prefix}/lib/%{name}/efi*/vesa.c32
+%{_prefix}/lib/%{name}/efi*/vesamenu.c32
+%{_prefix}/lib/%{name}/efi*/vpdtest.c32
+%{_prefix}/lib/%{name}/efi*/whichsys.c32
+%{_prefix}/lib/%{name}/efi*/zzjson.c32
+
 %files -n pxelinux
 %doc doc/pxelinux.txt
 %{pxebase}/*.0
@@ -226,19 +321,6 @@ install -m 0644 bios/core/isolinux-*.bin %{buildroot}/%{_prefix}/lib/syslinux/
 %{_sbindir}/extlinux
 %{_prefix}/lib/%{name}/mbr.bin
 
-%files perl
-%{_bindir}/keytab-lilo
-%{_bindir}/lss16toppm
-%{_bindir}/md5pass
-%{_bindir}/mkdiskimage
-%{_bindir}/ppmtolss16
-%{_bindir}/pxelinux-options
-%{_bindir}/sha1pass
-%{_bindir}/syslinux2ansi
-%{_bindir}/isohybrid.pl
-%{_mandir}/man1/lss16toppm*
-%{_mandir}/man1/ppmtolss16*
-%{_mandir}/man1/syslinux2ansi*
 
 %files devel
 %{_prefix}/lib/%{name}/com32
