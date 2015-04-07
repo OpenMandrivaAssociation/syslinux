@@ -81,22 +81,18 @@ necessary to compile such modules.
 #It's not a big deal if some fails (like efi*)
 make -j spotless || true
 
-export CC="gcc -fuse-ld=bfd"
-
 TARGETS=bios
 
 %ifarch x86_64
 export TARGETS="$TARGETS efi64"
-export CC="$CC" LD="ld.bfd"
 %endif
 
 %ifarch %{ix86}
 export TARGETS="$TARGETS efi32"
-export CC="$CC"
-export LD="ld.bfd -melf_i386"
+export LD="-melf_i386"
 %endif
 
-make DATE="OpenMandriva" $TARGETS
+make CC="gcc -fuse-ld=bfd" LD="ld.bfd $LD" DATE="OpenMandriva" $TARGETS
 
 mv core/fs/iso9660/iso9660.c core/fs/iso9660/iso9660.orig
 mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
@@ -104,7 +100,7 @@ mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
 for arch in i586 x86_64; do
   cp -f core/fs/iso9660/iso9660.orig core/fs/iso9660/iso9660.c
   perl -pi -e 's,\"\/isolinux,\"/'$arch'/isolinux,' core/fs/iso9660/iso9660.c
-  %make DATE="OpenMandriva" bios
+  %make CC="gcc -fuse-ld=bfd" LD="$LD" DATE="OpenMandriva" bios
   mv bios/core/isolinux.bin bios/core/isolinux-$arch.bin
 done
 
