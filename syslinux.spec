@@ -100,7 +100,7 @@ mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
 for arch in i586 x86_64; do
   cp -f core/fs/iso9660/iso9660.orig core/fs/iso9660/iso9660.c
   perl -pi -e 's,\"\/isolinux,\"/'$arch'/isolinux,' core/fs/iso9660/iso9660.c
-  %make CC="gcc -fuse-ld=bfd" LD="$LD" DATE="OpenMandriva" bios
+  %make CC="gcc -fuse-ld=bfd" LD="ld.bfd $LD" DATE="OpenMandriva" bios
   mv bios/core/isolinux.bin bios/core/isolinux-$arch.bin
 done
 
