@@ -77,21 +77,23 @@ necessary to compile such modules.
 %patch1 -p1 -b .install_all~
 
 %build
-#Let's restart from a clean repo
-#It's not a big deal if some fails (like efi*)
-make -j spotless || true
+# build fails with ld-gold
+mkdir ld 
+ln -s `which ld.bfd` ld/ld 
+export PATH=`pwd`/ld:$PATH
 
-TARGETS=bios
+make DATE="%{vendor}" clean || true 
 
-%ifarch x86_64
-export TARGETS="$TARGETS efi64"
-%endif
+make DATE="%{vendor}" bios
 
 %ifarch %{ix86}
-export TARGETS="$TARGETS efi32"
+make DATE="%{vendor}" efi32
 %endif
 
-make CC="gcc -fuse-ld=bfd" LD="ld.bfd -melf_i386" DATE="OpenMandriva" $TARGETS
+%ifarch x86_64
+make DATE="%{vendor}" efi64
+%endif
+
 
 mv core/fs/iso9660/iso9660.c core/fs/iso9660/iso9660.orig
 mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
