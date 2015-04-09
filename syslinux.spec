@@ -89,10 +89,9 @@ export TARGETS="$TARGETS efi64"
 
 %ifarch %{ix86}
 export TARGETS="$TARGETS efi32"
-export LD="-melf_i386"
 %endif
 
-make CC="gcc -fuse-ld=bfd" LD="ld.bfd $LD" DATE="OpenMandriva" $TARGETS
+make CC="gcc -fuse-ld=bfd" LD="ld.bfd -melf_i386" DATE="OpenMandriva" $TARGETS
 
 mv core/fs/iso9660/iso9660.c core/fs/iso9660/iso9660.orig
 mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
@@ -100,7 +99,7 @@ mv bios/core/isolinux.bin bios/core/isolinux.bin.normal
 for arch in i586 x86_64; do
   cp -f core/fs/iso9660/iso9660.orig core/fs/iso9660/iso9660.c
   perl -pi -e 's,\"\/isolinux,\"/'$arch'/isolinux,' core/fs/iso9660/iso9660.c
-  %make CC="gcc -fuse-ld=bfd" LD="ld.bfd $LD" DATE="OpenMandriva" bios
+  %make CC="gcc -fuse-ld=bfd" LD="ld.bfd -melf_i386" DATE="OpenMandriva" bios
   mv bios/core/isolinux.bin bios/core/isolinux-$arch.bin
 done
 
