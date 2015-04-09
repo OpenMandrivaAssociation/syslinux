@@ -1,1 +1,3 @@
 addFilter("E: hardcoded-library-path")
+addFilter("library-not-linked-against-libc")
+addFilter("shared-lib-without-dependency-information")
