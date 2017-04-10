@@ -6,7 +6,7 @@ Summary:	A bootloader for linux using floppies, CD
 Name:		syslinux
 Epoch:		1
 Version:	6.03
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://syslinux.zytor.com/
@@ -17,6 +17,16 @@ Source3:	pxelinux-default
 Source4:	syslinux.rpmlintrc
 Patch0:		syslinux-6.03-dont-build-syslinux.exe-as-we-have-no-mingw-available.patch
 Patch1:		0001-Add-install-all-target-to-top-side-of-HAVE_FIRMWARE.patch
+# Backport from upstream git master to fix RHBZ #1234653
+Patch2: 0035-SYSAPPEND-Fix-space-stripping.patch
+# From upstream ML, these should fix some GCC 5 issues, e.g. RHBZ #1263988
+# http://www.syslinux.org/archives/2015-September/024317.html
+# http://www.syslinux.org/archives/2015-September/024318.html
+Patch3: fix-alignment-change-gcc-5.patch
+# http://www.syslinux.org/archives/2015-September/024319.html
+Patch4: dont-guess-section-alignment.patch
+Patch5:	0014_fix_ftbfs_no_dynamic_linker.patch
+
 ExclusiveArch:	%{ix86} x86_64
 BuildRequires:	nasm
 BuildRequires:	netpbm
@@ -82,8 +92,7 @@ necessary to compile such modules.
 
 %prep
 %setup -q
-%patch0 -p1 -b .nomingw~
-%patch1 -p1 -b .install_all~
+%apply_patches
 
 %build
 # build fails with ld-gold
