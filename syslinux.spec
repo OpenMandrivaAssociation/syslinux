@@ -6,7 +6,7 @@ Summary:	A bootloader for linux using floppies, CD
 Name:		syslinux
 Epoch:		1
 Version:	6.03
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://syslinux.zytor.com/
@@ -27,7 +27,7 @@ Patch3: fix-alignment-change-gcc-5.patch
 Patch4: dont-guess-section-alignment.patch
 Patch5:	0014_fix_ftbfs_no_dynamic_linker.patch
 
-ExclusiveArch:	%{ix86} x86_64
+ExclusiveArch:	%{ix86} %{x86_64}
 BuildRequires:	nasm
 BuildRequires:	netpbm
 BuildRequires:	pkgconfig(uuid)
