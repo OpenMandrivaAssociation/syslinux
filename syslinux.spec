@@ -108,7 +108,7 @@ make DATE="%{vendor}" bios
 make DATE="%{vendor}" efi32
 %endif
 
-%ifarch x86_64
+%ifarch %{x86_64}
 make DATE="%{vendor}" efi64
 %endif
 
@@ -120,7 +120,7 @@ TARGETS="bios"
 export TARGETS="$TARGETS efi32"
 %endif
 
-%ifarch x86_64
+%ifarch %{x86_64}
 export TARGETS="$TARGETS efi64"
 %endif
 
