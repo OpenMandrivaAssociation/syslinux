@@ -9,7 +9,7 @@ Version:	6.03
 Release:	7
 License:	GPLv2+
 Group:		System/Kernel and hardware
-Url:		http://syslinux.zytor.com/
+Url:		https://syslinux.zytor.com/
 Source0:	https://www.kernel.org/pub/linux/utils/boot/syslinux/%{name}-%{version}.tar.xz
 Source1:	pxelinux-help.txt
 Source2:	pxelinux-messages
