@@ -28,6 +28,7 @@ Patch4: dont-guess-section-alignment.patch
 Patch5:	0014_fix_ftbfs_no_dynamic_linker.patch
 
 ExclusiveArch:	%{ix86} %{x86_64}
+BuildRequires:	make
 BuildRequires:	nasm
 BuildRequires:	netpbm
 BuildRequires:	pkgconfig(uuid)
